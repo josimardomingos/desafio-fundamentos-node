@@ -25,15 +25,19 @@ class TransactionsRepository {
 
   public getBalance(): Balance {
     const sumIncome = this.transactions
-      .filter(transaction => transaction.type === 'income')
+      .map(transaction =>
+        transaction.type === 'income' ? transaction.value : 0,
+      )
       .reduce((sum, currentIncome) => {
-        return sum + currentIncome.value;
+        return sum + currentIncome;
       }, 0);
 
     const sumOutcome = this.transactions
-      .filter(transaction => transaction.type === 'outcome')
-      .reduce((sum, currentIncome) => {
-        return sum + currentIncome.value;
+      .map(transaction =>
+        transaction.type === 'outcome' ? transaction.value : 0,
+      )
+      .reduce((sum, currentOutcome) => {
+        return sum + currentOutcome;
       }, 0);
 
     const balance = {
